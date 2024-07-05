@@ -1,16 +1,21 @@
-# kissansphere
+# Plant MD
 
-A new Flutter project.
+Introducing Plant MD: Your Pocket Plant Doctor
+Empowering farmers with on-the-go plant disease detection.
+
+Plant MD is a revolutionary mobile application that utilizes cutting-edge AI technology to diagnose plant diseases directly on your smartphone, without internet access.
+
+Powered by TensorFlow Lite (TFLite), our app delivers exceptional performance:
+
+Lightweight and Efficient: Runs smoothly on low-RAM devices, making it accessible to farmers everywhere.
+Fast and Accurate: Provides instant results, allowing you to take quick action to protect your crops.
+Continuously Improving: We're constantly expanding our disease library to ensure comprehensive plant health monitoring.
+With Plant MD, you can:
+
+Easily capture images of your plants using your phone's camera.
+Receive quick and accurate diagnoses of potential diseases.
+Take timely action to save your crops and optimize yields.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Will release an apk in the releases tab soon !
