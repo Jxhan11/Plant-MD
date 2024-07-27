@@ -1,5 +1,8 @@
 # Plant MD
 
+![Component 6](https://github.com/user-attachments/assets/a12d7568-0ad5-42f1-9f05-0cc24ed275b8)
+
+
 Introducing Plant MD: Your Pocket Plant Doctor
 Empowering farmers with on-the-go plant disease detection.
 
