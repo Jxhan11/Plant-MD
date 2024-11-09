@@ -5,21 +5,47 @@ import 'dart:typed_data';
 
 import 'package:fc_native_image_resize/fc_native_image_resize.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kissansphere/main.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:image/image.dart' as img;
+import 'package:image_picker_android/image_picker_android.dart';
+import 'package:image_picker_android/image_picker_android.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
+import 'dart:developer' as logger;
 import 'dart:developer' as logger;
 
 var diseases = ['Healthy', 'Cercospora', 'Alternatica', 'Bacterial Blight'];
 String? element; // var element = diseases[_random.nextInt(diseases.length)];
-final ImagePicker _picker = ImagePicker();
+// final ImagePicker _picker = ImagePicker();
+final ImagePickerAndroid _picker = ImagePickerAndroid();
+
 File? selectedImage;
+
+// Future<img.Image?> loadImage(String path) async {
+//   try {
+//     final bytes = await File(path).readAsBytes();
+//     return await img.decodeImage(bytes);
+//   } catch (error) {
+//     print("Error loading image: $error");
+//     return null;
+//   }
+// }
+
+Future<void> pickImage() async {
+  try {
+    final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedImage = File(pickedFile.path);
+    }
+  } catch (error) {
+    print("Error picking image: $error");
+  }
+}
 
 Future<img.Image?> loadImage(String path) async {
   try {
     final bytes = await File(path).readAsBytes();
-    return await img.decodeImage(bytes);
+    return img.decodeImage(bytes);
   } catch (error) {
     print("Error loading image: $error");
     return null;
@@ -30,22 +56,7 @@ img.Image resizeImage(img.Image image, int width, int height) {
   return img.copyResize(image, height: height, width: width);
 }
 
-// Uint8List normalizePixels(List<int> imageData) {
-//   final List<dynamic> normalizedData = [];
-//   for (int value in imageData) {
-//     normalizedData.add(value / 255.0);
-//   }
-//   return normalizedData as Uint8List;
-// }
-// Uint8List normalizePixels(List<int> imageData) {
-//   final List<int> normalizedData = [];
-//   for (int value in imageData) {
-//     final normalizedValue =
-//         (value / 255.0).round(); // Normalize and convert to uint8 range
-//     normalizedData.add(normalizedValue);
-//   }
-//   return Uint8List.fromList(normalizedData);
-// }
+
 dynamic normalizePixels(List<int> imageData) {
   final List<double> normalizedData = [];
   for (int value in imageData) {
@@ -55,11 +66,6 @@ dynamic normalizePixels(List<int> imageData) {
   }
   return normalizedData;
 }
-
-// dynamic createTfLiteTensor(List<float32> data, List<int> shape) {
-//   // Replace 'TfLiteType.float32' with your model's data type if different
-//   return Tenso(type: TfLiteType.float32, shape: shape, bytes: data.buffer.asUint8List());
-// }
 
 List<double> normalizeImage(List list) {
   debugPrint('List size ${list.length}');
@@ -87,12 +93,6 @@ Future<List<dynamic>?> _runFile(String path) async {
   try {
     final image = await loadImage(path);
     if (image == null) return null;
-    //Div by 255
-    //resize
-    //reshappe to [-1,512,512,3]
-    // logger.log('og image bytes\n ${image.data?.getBytes().toString() ?? ''}');
-    // var list = image.getBytes();
-    // var res = img.copyResize(image, height: 512, width: 512);
     var res = image.getBytes().toList();
     // logger.log(res.toString());
     var resized_image = img.copyResize(image, height: 512, width: 512);
@@ -362,23 +362,42 @@ class BoxWithIcon extends StatefulWidget {
 class _BoxWithIconState extends State<BoxWithIcon> {
   Future _pickImageFromGallery() async {
     try {
-      final returnedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      setState(() {
-        selectedImage = File(returnedImage!.path);
-        debugPrint('path ${returnedImage.path}');
-      });
-    } catch (e) {
-      debugPrint('Error $e');
+      final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          selectedImage = File(pickedFile.path);
+          debugPrint('path ${pickedFile.path}');
+        });
+        selectedImage = File(pickedFile.path);
+      }
+    } catch (error) {
+      print("Error picking image: $error");
     }
+    // try {
+    //   final returnedImage =
+    //       await ImagePicker().pickImage(source: ImageSource.gallery);
+    //   setState(() {
+    //     selectedImage = File(returnedImage!.path);
+    //     debugPrint('path ${returnedImage.path}');
+    //   });
+    // } catch (e) {
+    //   debugPrint('Error $e');
+    // }
   }
 
   Future _pickImageFromCamera() async {
-    final returnedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      selectedImage = File(returnedImage!.path);
-    });
+    try {
+      final pickedFile = await _picker.getImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          selectedImage = File(pickedFile.path);
+          debugPrint('path ${pickedFile.path}');
+        });
+        selectedImage = File(pickedFile.path);
+      }
+    } catch (error) {
+      print("Error picking image: $error");
+    }
   }
 
   @override
