@@ -11,7 +11,7 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:image/image.dart' as img;
 import 'dart:developer' as logger;
 
-var diseases = ['Healthy', 'Multiple diseases', 'Rust', 'Scab'];
+var diseases = ['Healthy', 'Cercospora', 'Alternatica', 'Bacterial Blight'];
 String? element; // var element = diseases[_random.nextInt(diseases.length)];
 final ImagePicker _picker = ImagePicker();
 File? selectedImage;
